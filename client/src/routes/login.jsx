@@ -1,9 +1,11 @@
 import { useState } from "react";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/userAuth.Context";
 
 const Login = () => {
+  const { userLogin } = useUserContext();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
@@ -11,23 +13,15 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/userAuth/login",
-        { email, password },
-        { withCredentials: true }
-      );
-      console.log(response.data);
-      toast.success(response.data.message);
-
+      const formData = { email, password };
+      const response = await userLogin(formData);
+      toast.success(response.message);
       setTimeout(() => {
-        if (response.status === 200) {
-          navigate("/");
-          window.location.reload();
-        }
+        navigate("/");
+        window.location.reload();
       }, 1000);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message); // Extract error message from response
+      toast.error(error.message);
     }
   };
 

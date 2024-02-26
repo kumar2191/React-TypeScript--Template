@@ -1,9 +1,10 @@
 import { useState } from "react";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
+import { useUserContext } from "../context/userAuth.Context";
 
 const Register = () => {
+  const { userRegister } = useUserContext();
   const initialFormDataValues = {
     username: "",
     email: "",
@@ -23,21 +24,13 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/v1/userAuth/Register",
-        formData
-      );
-
-      toast.success(response.data.message);
-
+      const response = await userRegister(formData);
+      toast.success(response.message);
       setTimeout(() => {
-        if (response.status === 201) {
-          navigate("/login");
-        }
+        navigate("/login");
       }, 2000);
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message); // Extract error message from response
+      toast.error(error.message);
     }
   };
 
