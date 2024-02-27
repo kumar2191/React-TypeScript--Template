@@ -3,4 +3,6 @@ import Home from "./home.jsx"
 import Login from "./login.jsx"
 import Register from "./register.jsx"
 
-export { Root, Home, Login, Register }
+import Notfound from "./notfound.jsx"
+
+export { Root, Home, Login, Register, Notfound }
