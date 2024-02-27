@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // fetch user from token
   const getUser = async () => {
     try {
       const res = await axios.get(AuthURL + "refetch", {
@@ -25,6 +26,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  // user login call
   const userLogin = async (formData) => {
     try {
       const response = await axios.post(AuthURL + "login", formData, {
@@ -39,6 +41,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  // user register call 
   const userRegister = async (formData) => {
     try {
       const response = await axios.post(AuthURL + "register", formData, {
@@ -52,6 +55,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
+  // fetch user for every re-render
   useEffect(() => {
     getUser();
   }, []);
