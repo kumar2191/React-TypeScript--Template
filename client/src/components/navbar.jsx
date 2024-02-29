@@ -1,31 +1,22 @@
 import { Link, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
 import { useUserContext } from "../context/userAuth.Context";
 
-const logout = async (navigate, setUser) => {
-  try {
-    await axios.get("http://localhost:5000/api/v1/userAuth/logout", {
-      withCredentials: true,
-    });
-    // Clear token from client-side storage (assuming token is stored in a cookie)
-    // document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    setUser(null);
-    toast.success("User Logged Out Successfully!!");
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
-};
-
 const Navbar = () => {
-  const { user, setUser } = useUserContext();
-  const navigate = useNavigate();
+  const { user, logout } = useUserContext();
+  let navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout(navigate, setUser);
+    try {
+      await logout();
+      toast.success("User Logged Out Successfully!!");
+      setTimeout(() => {
+        navigate("/login");
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      toast.error("Logout failed:", error);
+    }
   };
 
   return (

@@ -15,6 +15,7 @@ const UserProvider = ({ children }) => {
       const res = await axios.get(AuthURL + "refetch", {
         withCredentials: true,
       });
+      console.log(res.data);
       setUser(res.data);
     } catch (error) {
       setError(
@@ -41,7 +42,7 @@ const UserProvider = ({ children }) => {
     }
   };
 
-  // user register call 
+  // user register call
   const userRegister = async (formData) => {
     try {
       const response = await axios.post(AuthURL + "register", formData, {
@@ -52,6 +53,20 @@ const UserProvider = ({ children }) => {
       throw new Error(
         error.response?.data.message || "An error occurred while registering"
       );
+    }
+  };
+
+  const logout = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/v1/userAuth/logout",
+        {
+          withCredentials: true,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   };
 
@@ -67,6 +82,7 @@ const UserProvider = ({ children }) => {
     error,
     userLogin,
     userRegister,
+    logout,
   };
 
   return (
