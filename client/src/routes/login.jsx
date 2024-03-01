@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/userAuth.Context";
 
 const Login = () => {
-  const { userLogin } = useUserContext();
+  const { userLogin, getUser } = useUserContext();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -16,10 +16,20 @@ const Login = () => {
       const formData = { email, password };
       const response = await userLogin(formData);
       toast.success(response.message);
-      setTimeout(() => {
-        navigate("/");
-        window.location.reload();
-      }, 1000);
+      if (response.status) {
+        try {
+          const res = await getUser();
+          const { admin } = res;
+          if (admin) {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+          window.location.reload();
+        } catch (error) {
+          console.log(error);
+        }
+      }
     } catch (error) {
       toast.error(error.message);
     }
@@ -79,6 +89,7 @@ const Login = () => {
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
+                    autoComplete="email"
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
@@ -101,6 +112,7 @@ const Login = () => {
                     name="password"
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your Password"
+                    autoComplete="current-password"
                     required
                     className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />

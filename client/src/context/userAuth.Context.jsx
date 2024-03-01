@@ -15,8 +15,8 @@ const UserProvider = ({ children }) => {
       const res = await axios.get(AuthURL + "refetch", {
         withCredentials: true,
       });
-      console.log(res.data);
       setUser(res.data);
+      return res.data
     } catch (error) {
       setError(
         error.response?.data.message ||
@@ -58,12 +58,9 @@ const UserProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5000/api/v1/userAuth/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(AuthURL + "/logout", {
+        withCredentials: true,
+      });
       return response.data;
     } catch (error) {
       console.error("Logout failed:", error);
@@ -80,6 +77,7 @@ const UserProvider = ({ children }) => {
     setUser,
     loading,
     error,
+    getUser,
     userLogin,
     userRegister,
     logout,
