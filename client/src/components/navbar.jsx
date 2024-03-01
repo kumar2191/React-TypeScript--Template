@@ -44,6 +44,13 @@ const Navbar = () => {
       />
       <div>Authentication</div>
       <div className="flex gap-6">
+        {user && user.admin ? (
+          <Link to={"/admin"}>
+            <p>Admin</p>
+          </Link>
+        ) : (
+          ""
+        )}
         <Link to={"/"}>
           <p>Home</p>
         </Link>
