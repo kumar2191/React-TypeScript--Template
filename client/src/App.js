@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Root, Login, Register, Notfound } from "./routes/index.js";
+import { Home, Root, Login, Register, Notfound, Admin } from "./routes/index.js";
 import { useUserContext } from "./context/userAuth.Context.jsx";
 import "./App.css";
 
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "admin",
-        element: <AdminRoute element={<h1>Admin</h1>} />,
+        element: <AdminRoute element={<Admin />} />,
       },
       {
         path: "",

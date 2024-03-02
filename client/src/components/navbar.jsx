@@ -77,14 +77,18 @@ const Navbar = () => {
 
             <CiMenuKebab
               onClick={menuToggle}
-              className="font-semibold text-xl"
+              className="font-semibold text-xl cursor-pointer"
             />
 
             {userMenu && (
               <div className="absolute top-12 right-8 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1 font-medium">
+                <div className="py-1 px-2 font-medium flex flex-col">
+                  <p className="py-2 px-2 cursor-pointer text-[15px] text-black hover:bg-gray-200">
+                    Profile
+                  </p>
+                  <hr />
                   <p
-                    className="cursor-pointer text-xl"
+                    className="py-2 px-2 cursor-pointer text-[15px] text-black hover:bg-gray-200"
                     onClick={handleLogout}
                   >
                     Logout
