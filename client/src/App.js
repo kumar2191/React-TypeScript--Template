@@ -1,6 +1,12 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home, Root, Login, Register, Notfound, Admin } from "./routes/index.js";
 import { useUserContext } from "./context/userAuth.Context.jsx";
+
+
+import "primereact/resources/themes/lara-light-cyan/theme.css";
+
+import 'primeicons/primeicons.css';
+        
 import "./App.css";
 
 // Define a custom route component that checks if the user is an admin

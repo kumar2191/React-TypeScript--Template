@@ -1,18 +1,36 @@
-import { useState } from "react";
+import { useRef } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
-import { CiMenuKebab } from "react-icons/ci";
 import { useUserContext } from "../context/userAuth.Context";
+import { Avatar } from "primereact/avatar";
+import { Menu } from "primereact/menu";
+import { Button } from "primereact/button";
 
 const Navbar = () => {
   const { user, logout } = useUserContext();
-  const [userMenu, setUserMenu] = useState(false);
 
   const navigate = useNavigate();
 
-  const menuToggle = () => {
-    setUserMenu(!userMenu);
-  };
+  const userMenu = useRef(null);
+
+  const items = [
+    {
+      label: user.username + "!",
+      items: [
+        {
+          label: "Settings",
+          icon: "pi pi-cog",
+        },
+        {
+          label: "Logout",
+          icon: "pi pi-sign-out",
+          command: () => {
+            handleLogout();
+          },
+        },
+      ],
+    },
+  ];
 
   const handleLogout = async () => {
     try {
@@ -102,34 +120,23 @@ const Navbar = () => {
           Search
         </NavLink>
       </div>
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-4 items-center">
         {user ? (
           <>
-            <p className="flex items-center justify-center font-semibold text-xl border rounded-full w-8 h-8">
-              {user.username.charAt(0)}
-            </p>
+            <Avatar
+              label={user.username.charAt(0)}
+              shape="circle"
+              style={{ backgroundColor: "#ffffff", color: "black" }}
+            />
 
-            <CiMenuKebab
-              onClick={menuToggle}
+            <Button
+              icon="pi pi-ellipsis-v"
+              rounded
+              onClick={(event) => userMenu.current.toggle(event)}
               className="font-semibold text-xl cursor-pointer"
             />
 
-            {userMenu && (
-              <div className="absolute top-12 right-8 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1 px-2 font-medium flex flex-col">
-                  <p className="py-2 px-2 cursor-pointer text-[15px] text-black hover:bg-gray-200">
-                    Profile
-                  </p>
-                  <hr />
-                  <p
-                    className="py-2 px-2 cursor-pointer text-[15px] text-black hover:bg-gray-200"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </p>
-                </div>
-              </div>
-            )}
+            <Menu model={items} popup ref={userMenu} />
           </>
         ) : (
           <>
