@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
 import { AuthURL } from "../config";
+import Loading from "./loading";
 
 const UserContext = createContext();
 
@@ -16,14 +17,16 @@ const UserProvider = ({ children }) => {
         withCredentials: true,
       });
       setUser(res.data);
-      return res.data
+      return res.data;
     } catch (error) {
       setError(
         error.response?.data.message ||
           "An error occurred while fetching user data"
       );
     } finally {
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     }
   };
 
@@ -76,6 +79,7 @@ const UserProvider = ({ children }) => {
     user,
     setUser,
     loading,
+    setLoading,
     error,
     getUser,
     userLogin,
@@ -85,7 +89,7 @@ const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider value={contextValue}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <Loading /> : children}
     </UserContext.Provider>
   );
 };

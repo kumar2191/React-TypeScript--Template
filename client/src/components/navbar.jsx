@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { CiMenuKebab } from "react-icons/ci";
 import { useUserContext } from "../context/userAuth.Context";
@@ -58,15 +58,49 @@ const Navbar = () => {
       <div>Authentication</div>
       <div className="flex gap-6">
         {user && user.admin ? (
-          <Link to={"/admin"}>
+          <NavLink
+            to="/admin"
+            className={({ isActive }) =>
+              isActive
+                ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
+                : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+            }
+          >
             <p>Admin</p>
-          </Link>
+          </NavLink>
         ) : (
           ""
         )}
-        <Link to={"/"}>
-          <p>Home</p>
-        </Link>
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+          }
+        >
+          Home
+        </NavLink>
+        <NavLink
+          to="/explore"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+          }
+        >
+          Explore
+        </NavLink>
+        <NavLink
+          to="/search"
+          className={({ isActive }) =>
+            isActive
+              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+          }
+        >
+          Search
+        </NavLink>
       </div>
       <div className="flex gap-6 items-center">
         {user ? (
