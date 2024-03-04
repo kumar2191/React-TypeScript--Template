@@ -1,3 +1,59 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.p-timeline-event-opposite {
+    display: contents;
+}
+
+.p-timeline .p-timeline-event-marker {
+    border: 2px solid #06b6d4;
+    border-radius: 50%;
+    width: 1rem;
+    height: 1rem;
+    background-color: #ffffff;
+}
+
+.p-dropdown {
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    border-radius: 6px;
+    outline-color: transparent;
+}
+
+.p-hidden-accessible {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.p-paginator .p-dropdown .p-dropdown-label {
+    padding-right: 0;
+}
+
+.p-dropdown .p-dropdown-trigger {
+    background: transparent;
+    color: #6b7280;
+    width: 3rem;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+.p-datatable .p-datatable-tbody>tr>td {
+    text-align: left;
+    border: 1px solid #e5e7eb;
+    border-width: 0 0 1px 0;
+    padding: 1rem 1rem;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #ecfeff;
+    border-color: #ecfeff;
+    color: #0e7490;
+}

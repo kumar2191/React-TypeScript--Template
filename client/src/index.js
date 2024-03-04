@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import "primereact/resources/themes/lara-light-cyan/theme.css";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserProvider } from './context/userAuth.Context';
+import { AdminProvider } from './context/admin.Context';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <UserProvider>
-      <App />
+      <AdminProvider>
+        <App />
+      </AdminProvider>
     </UserProvider>
   </React.StrictMode>
 );

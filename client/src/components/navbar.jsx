@@ -5,6 +5,7 @@ import { useUserContext } from "../context/userAuth.Context";
 import { Avatar } from "primereact/avatar";
 import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
+import { WiStars } from "react-icons/wi";
 
 const Navbar = () => {
   const { user, logout } = useUserContext();
@@ -13,24 +14,29 @@ const Navbar = () => {
 
   const userMenu = useRef(null);
 
-  const items = [
-    {
-      label: user.username + "!",
-      items: [
+  const items = user
+    ? [
         {
-          label: "Settings",
-          icon: "pi pi-cog",
+          label: user.username + "!",
+          items: [
+            {
+              label: "Settings",
+              icon: "pi pi-cog",
+              command: () => {
+                navigate("/settings");
+              },
+            },
+            {
+              label: "Logout",
+              icon: "pi pi-sign-out",
+              command: () => {
+                handleLogout();
+              },
+            },
+          ],
         },
-        {
-          label: "Logout",
-          icon: "pi pi-sign-out",
-          command: () => {
-            handleLogout();
-          },
-        },
-      ],
-    },
-  ];
+      ]
+    : [];
 
   const handleLogout = async () => {
     try {
@@ -73,15 +79,18 @@ const Navbar = () => {
           },
         }}
       />
-      <div>Authentication</div>
+      <div className="flex gap-2 items-center">
+        <WiStars className="font-semibold text-[2rem]" />
+        Healthwise
+      </div>
       <div className="flex gap-6">
         {user && user.admin ? (
           <NavLink
             to="/admin"
             className={({ isActive }) =>
               isActive
-                ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
-                : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+                ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+                : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
             }
           >
             <p>Admin</p>
@@ -93,8 +102,8 @@ const Navbar = () => {
           to="/"
           className={({ isActive }) =>
             isActive
-              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
           }
         >
           Home
@@ -103,8 +112,8 @@ const Navbar = () => {
           to="/explore"
           className={({ isActive }) =>
             isActive
-              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
           }
         >
           Explore
@@ -113,8 +122,8 @@ const Navbar = () => {
           to="/search"
           className={({ isActive }) =>
             isActive
-              ? "text-indigo-600 hover:text-white px-3 py-1 text-md font-medium cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-600 rounded-md px-3 py-1 text-md font-medium cursor-pointer"
+              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
           }
         >
           Search
