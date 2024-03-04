@@ -43,9 +43,9 @@ const Admin = () => {
       <Card
         title={<h2 className="text-[14px] text-orange-500">{item.status}</h2>}
         subTitle={<h2 className="text-xs">{item.date}</h2>}
-        className="mb-3 h-[120px]"
+        className="mb-3 h-[130px]"
       >
-        <p className="-mt-5 text-[14px]">
+        <p className="-mt-4 text-[14px]">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
           sed consequuntur error repudiandae numquam deserunt.
         </p>
@@ -94,8 +94,8 @@ const Admin = () => {
           })}
         </div>
 
-        <div className="py-2 px-5">
-          <>
+        <div className="py-5 px-5 flex gap-3">
+          <Card>
             <h2 className="pb-5 font-bold text-[16px] text-indigo-500 underline underline-offset-8">
               User details:
             </h2>
@@ -114,16 +114,19 @@ const Admin = () => {
                 <Column field="createdAt" header="Date OJ"></Column>
               </DataTable>
             </div>
-          </>
-          <hr className="my-5"/>
-          <>
+            <hr className="my-5" />
+            <p className="text-end text-[14px]">
+              Note: Admin cannot modify users values.
+            </p>
+          </Card>
+          <Card>
             <h2 className="pb-5 font-bold text-[16px] text-indigo-500 underline underline-offset-8">
               Admin timeline:
             </h2>
             <div className="card py-5">
               <Timeline value={events} content={customizedContent} />
             </div>
-          </>
+          </Card>
         </div>
       </div>
     </div>
