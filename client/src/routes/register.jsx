@@ -29,7 +29,8 @@ const Register = () => {
       toast.success(response.message);
       setTimeout(() => {
         navigate("/login");
-      }, 2000);
+        window.location.reload();
+      }, 1000);
     } catch (error) {
       toast.error(error.message);
     }
@@ -37,10 +38,7 @@ const Register = () => {
 
   return (
     <>
-      <div
-        className="flex justify-center items-center h-screen"
-        style={{ height: "calc(100vh - 80px)" }}
-      >
+      <div className="flex justify-center items-center h-screen">
         <Toaster
           position="top-right"
           toastOptions={{
@@ -64,7 +62,10 @@ const Register = () => {
         />
         <div className="flex w-96 min-h-full flex-col justify-center px-6 py-12 lg:px-8">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <WiStars className="font-semibold text-[2.5rem] text-indigo-500 mx-auto h-10 w-auto" />
+            <div className="mx-auto h-10 w-auto flex justify-center items-center font-semibold">
+              <WiStars className="text-indigo-500 text-[2rem]" />
+              <i className="text-[1.5rem]">HW</i>
+            </div>
 
             <h2 className="mt-6 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Sign up your account
@@ -89,7 +90,7 @@ const Register = () => {
                     placeholder="Enter your username"
                     autoComplete="username"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -111,7 +112,7 @@ const Register = () => {
                     placeholder="Enter your email"
                     autoComplete="email"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -135,7 +136,7 @@ const Register = () => {
                     placeholder="Enter your Password"
                     autoComplete="current-password"
                     required
-                    className="block w-full rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -143,7 +144,7 @@ const Register = () => {
               <div>
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+                  className="flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
                 >
                   Register
                 </button>
