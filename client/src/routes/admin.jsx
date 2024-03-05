@@ -4,7 +4,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Tag } from "primereact/tag";
 import { useAdminContext } from "../context/admin.Context";
-import { Timeline } from "primereact/timeline";
 import { Card } from "primereact/card";
 
 const StatCard = ({ title, description }) => {
@@ -19,56 +18,6 @@ const StatCard = ({ title, description }) => {
 const Admin = () => {
   const { user } = useUserContext();
   const { users } = useAdminContext();
-
-  const events = [
-    {
-      status: "Role Management",
-      date: "15/10/2020 10:30",
-      color: "#9C27B0",
-    },
-    {
-      status: "User Management",
-      date: "15/10/2020 14:00",
-      color: "#673AB7",
-    },
-    {
-      status: "Analytics and Reporting",
-      date: "15/10/2020 16:15",
-      color: "#FF9800",
-    },
-  ];
-
-  const customizedContent = (item) => {
-    return (
-      <Card
-        title={<h2 className="text-[14px] text-orange-500">{item.status}</h2>}
-        subTitle={<h2 className="text-xs">{item.date}</h2>}
-        className="mb-3 h-[130px]"
-      >
-        <p className="-mt-4 text-[14px]">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
-          sed consequuntur error repudiandae numquam deserunt.
-        </p>
-      </Card>
-    );
-  };
-
-  const getSeverity = (users) => {
-    switch (users.admin) {
-      case true:
-        return "success";
-
-      case false:
-        return "warning";
-
-      default:
-        return null;
-    }
-  };
-
-  const statusBodyTemplate = (users) => {
-    return <Tag value={`${users.admin}`} severity={getSeverity(users)}></Tag>;
-  };
 
   return (
     <div className="m-[1rem]">
@@ -94,7 +43,7 @@ const Admin = () => {
           })}
         </div>
 
-        <div className="py-5 px-5 flex gap-3">
+        <div className="py-5 px-5">
           <Card>
             <h2 className="pb-5 font-bold text-[16px] text-indigo-500 underline underline-offset-8">
               User details:
@@ -110,7 +59,6 @@ const Admin = () => {
               >
                 <Column field="username" header="Username"></Column>
                 <Column field="email" header="Email"></Column>
-                <Column header="Admin" body={statusBodyTemplate}></Column>
                 <Column field="createdAt" header="Date OJ"></Column>
               </DataTable>
             </div>
@@ -118,14 +66,6 @@ const Admin = () => {
             <p className="text-end text-[14px]">
               Note: Admin cannot modify users values.
             </p>
-          </Card>
-          <Card>
-            <h2 className="pb-5 font-bold text-[16px] text-indigo-500 underline underline-offset-8">
-              Admin timeline:
-            </h2>
-            <div className="card py-5">
-              <Timeline value={events} content={customizedContent} />
-            </div>
           </Card>
         </div>
       </div>

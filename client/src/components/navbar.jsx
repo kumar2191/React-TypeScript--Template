@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useUserContext } from "../context/userAuth.Context";
 import { Avatar } from "primereact/avatar";
@@ -96,38 +96,35 @@ const Navbar = () => {
             <p>Admin</p>
           </NavLink>
         ) : (
-          ""
+          <>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+                  : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
+              }
+            >
+              Home
+            </NavLink>
+            {user ? (
+              <>
+                <NavLink
+                  to="/explore"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
+                      : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
+                  }
+                >
+                  Explore
+                </NavLink>
+              </>
+            ) : (
+              ""
+            )}
+          </>
         )}
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
-          }
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/explore"
-          className={({ isActive }) =>
-            isActive
-              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
-          }
-        >
-          Explore
-        </NavLink>
-        <NavLink
-          to="/search"
-          className={({ isActive }) =>
-            isActive
-              ? "text-indigo-500 hover:text-white px-3 py-1 text-md font-semibold cursor-pointer underline underline-offset-8"
-              : "text-white hover:text-indigo-500 rounded-md px-3 py-1 text-md font-semibold cursor-pointer"
-          }
-        >
-          Search
-        </NavLink>
       </div>
       <div className="flex gap-4 items-center">
         {user ? (
@@ -148,12 +145,12 @@ const Navbar = () => {
             <Menu model={items} popup ref={userMenu} />
           </>
         ) : (
-          <>
+          <div className="flex gap-5">
             <p>Guest</p>
-            <Link to={"login"}>
+            <a href="login">
               <p>Login</p>
-            </Link>
-          </>
+            </a>
+          </div>
         )}
       </div>
     </div>

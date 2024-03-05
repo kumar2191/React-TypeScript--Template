@@ -4,55 +4,68 @@ import { useUserContext } from "./context/userAuth.Context.jsx";
 import 'primeicons/primeicons.css';
 import "./App.css";
 
-// Define a custom route component that checks if the user is an admin
-const AdminRoute = ({ element }) => {
+const CustomRoot = () => {
+  const { user } = useUserContext();
+  const pathname = window.location.pathname;
+
+  if (!user && pathname === "/login") {
+    return <Login />;
+  } else if (!user && pathname === "/register") {
+    return <Register />;
+  } else {
+    return <Root />;
+  }
+};
+
+const AdminRoute = () => {
   const { user } = useUserContext();
 
   if (!user || !user.admin) {
     return <Notfound />;
   }
 
-  return element;
+  return <Admin />;
 };
 
-// providing routers with respective components
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Root />,
-    // error element
-    errorElement: <Notfound />,
-
-    // childrens for the root
-    children: [
-      {
-        path: "admin",
-        element: <AdminRoute element={<Admin />} />,
-      },
-      {
-        path: "",
-        element: <Home />,
-      },
-
-      // user
-      {
-        path: "login",
-        element: <Login />,
-      },
-      {
-        path: "register",
-        element: <Register />,
-      },
-    ],
-  },
-]);
 
 const App = () => {
+  const { user } = useUserContext();
+
+  // Providing routers with respective components
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      // Use the CustomRoute component for conditional rendering
+      element: <CustomRoot />,
+      // Error element
+      errorElement: <Notfound />,
+      // Children for the root
+      children: [
+        {
+          path: "admin",
+          element: <AdminRoute />,
+        },
+        {
+          path: "",
+          element: <Home />,
+        },
+        // User
+        {
+          path: "login",
+          element: user ? <Home /> : <Login />,
+        },
+        {
+          path: "register",
+          element: user ? <Home /> : <Register />,
+        },
+      ],
+    },
+  ]);
   return (
-    <>
-      <RouterProvider router={router} />
-    </>
+    <RouterProvider router={router} />
   );
 };
+
+
 
 export default App;

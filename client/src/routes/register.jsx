@@ -1,6 +1,6 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/userAuth.Context";
 import { WiStars } from "react-icons/wi";
 
@@ -152,13 +152,13 @@ const Register = () => {
 
             <p className="mt-10 text-center text-sm text-gray-500">
               Already a member?
-              <Link
-                to={"/login"}
+              <a
+                href="/login"
                 className="font-semibold leading-6 text-indigo-500 hover:text-indigo-500"
               >
                 {" "}
                 Login
-              </Link>
+              </a>
             </p>
           </div>
         </div>
