@@ -6,7 +6,6 @@ import { WiStars } from "react-icons/wi";
 
 const Login = () => {
   const { userLogin, getUser } = useUserContext();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
