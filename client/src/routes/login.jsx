@@ -21,14 +21,15 @@ const Login = () => {
           const res = await getUser();
           const { admin } = res;
           if (admin) {
-            navigate("/admin");
-            window.location.reload();
+            window.location.href = "/admin";
+            return;
           } else {
             navigate("/");
           }
         } catch (error) {
           console.log(error);
         }
+        
       }
     } catch (error) {
       toast.error(error.message);
