@@ -5,9 +5,13 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
+import { Password } from "primereact/password";
+import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const Settings = () => {
   const { user } = useUserContext();
+  const navigate = useNavigate();
 
   const initialFormDataValues = {
     username: user.username,
@@ -19,11 +23,9 @@ const Settings = () => {
     city: "",
   };
 
-  // Initialize form data state
   const [formData, setFormData] = useState(initialFormDataValues);
-  let navigate = useNavigate();
+  const [passwordMatch, setPasswordMatch] = useState("");
 
-  // Handle onchange event for input elements
   const handleOnChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,27 +34,66 @@ const Settings = () => {
     }));
   };
 
-  // Handle submit event
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    updateProfile(formData);
-
-    // set back to initial state
-    setFormData(initialFormDataValues);
-    if (user.admin) {
-      navigate("/admin");
+    if (passwordMatch !== formData.password) {
+      toast.error("Password do not match enter correct password!!");
+      return;
     } else {
-      navigate("/");
+      try {
+        const response = await updateProfile(formData);
+        console.log("Update response:", response.data);
+        toast.success("Updated successfully");
+        setFormData(initialFormDataValues);
+        setPasswordMatch("")
+        setTimeout(() => {
+          if (user.admin) {
+            navigate("/admin");
+          } else {
+            navigate("/");
+          }
+        }, 2000);
+      } catch (error) {
+        toast.error("Error updating profile:", error);
+      }
     }
   };
 
-  const updateProfile = (formData) => {
-    console.log("Updating profile...");
+  const updateProfile = async (formData) => {
+    console.log(`Updating ${user._id}...`);
     console.log("Form Data:", formData);
+
+    const response = await axios.put(
+      `http://localhost:5000/api/v1/users/${user._id}`,
+      formData
+    );
+
+    return response;
   };
 
   return (
     <div className="m-8">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          // Define default options
+          className: "",
+          duration: 5000,
+          style: {
+            background: "#363636",
+            color: "#fff",
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 3000,
+            theme: {
+              primary: "green",
+              secondary: "black",
+            },
+          },
+        }}
+      />
       <Card title={`Profile of ${user.username}`}>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 pb-5">
@@ -61,7 +102,7 @@ const Settings = () => {
               name="username"
               value={formData.username}
               onChange={handleOnChange}
-              placeholder="enter username"
+              placeholder="Enter username"
             />
           </div>
           <div className="flex flex-col gap-3 pb-5">
@@ -70,7 +111,7 @@ const Settings = () => {
               name="email"
               value={formData.email}
               onChange={handleOnChange}
-              placeholder="enter email"
+              placeholder="Enter email"
             />
           </div>
           <div className="flex flex-col gap-3 pb-5">
@@ -79,20 +120,21 @@ const Settings = () => {
               name="bio"
               value={formData.bio}
               onChange={handleOnChange}
-              placeholder="user bio"
+              placeholder="User bio"
             />
             <p className="text-xs">
               You can @mention other users and organizations to link to them.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex flex-wrap gap-3">
             <div className="flex flex-col gap-3 pb-5">
               <label className="font-semibold">Country:</label>
               <InputText
                 name="country"
                 value={formData.country}
                 onChange={handleOnChange}
-                placeholder="country"
+                placeholder="Country"
+                className="w-full"
               />
             </div>
             <div className="flex flex-col gap-3 pb-5">
@@ -101,7 +143,8 @@ const Settings = () => {
                 name="state"
                 value={formData.state}
                 onChange={handleOnChange}
-                placeholder="state"
+                placeholder="State"
+                className="w-full"
               />
             </div>
             <div className="flex flex-col gap-3 pb-5">
@@ -110,8 +153,43 @@ const Settings = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleOnChange}
-                placeholder="city"
+                placeholder="City"
+                className="w-full"
               />
+            </div>
+          </div>
+
+          <div className="mt-5 flex flex-col gap-3 border border-red-500 rounded-lg p-5">
+            <p className="pb-2 font-semibold text-lg text-red-400 underline underline-offset-[9px]">
+              Danger Zone :
+            </p>
+
+            <div className="flex flex-col gap-3 pb-5">
+              <label className="font-semibold">Password:</label>
+              <Password
+                name="password"
+                value={formData.password}
+                onChange={handleOnChange}
+                placeholder="Enter password"
+                toggleMask
+              />
+            </div>
+
+            <div className="flex flex-col gap-3 pb-5">
+              <label className="font-semibold">Confirm Password:</label>
+              <Password
+                name="confirmPassword"
+                value={passwordMatch}
+                onChange={(e) => setPasswordMatch(e.target.value)}
+                placeholder="Confirm password"
+                toggleMask
+                feedback={false}
+                tabIndex={1}
+              />
+
+              {passwordMatch && formData.password !== passwordMatch && (
+                <small className="text-red-500">Passwords do not match</small>
+              )}
             </div>
           </div>
           <Button

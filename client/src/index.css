@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* password */
+.p-password {
+    position: relative;
+    display: inline-flex;
+}
+
+.p-input-icon-left,
+.p-input-icon-right {
+    position: relative;
+    display: inline-block;
+}
+
+.p-input-icon-right>.p-inputtext {
+    padding-right: 2.5rem;
+    width: 100%;
+}
+
+.p-input-icon-left>i,
+.p-input-icon-right>i,
+.p-input-icon-left>svg,
+.p-input-icon-right>svg,
+.p-input-icon-left>.p-input-prefix,
+.p-input-icon-right>.p-input-suffix {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+}
+
 /* input */
 .p-inputtext {
     font-family: var(--font-family);

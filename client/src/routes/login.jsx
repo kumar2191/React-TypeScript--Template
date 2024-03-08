@@ -22,6 +22,7 @@ const Login = () => {
           const { admin } = res;
           if (admin) {
             navigate("/admin");
+            window.location.reload();
           } else {
             navigate("/");
           }

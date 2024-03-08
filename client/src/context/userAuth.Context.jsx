@@ -86,7 +86,7 @@ const UserProvider = ({ children }) => {
     userRegister,
     logout,
   };
-
+  
   return (
     <UserContext.Provider value={contextValue}>
       {loading ? <Loading /> : children}
