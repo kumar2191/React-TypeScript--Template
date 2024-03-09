@@ -211,7 +211,7 @@ const Settings = () => {
           </div> */}
 
           {/* Image upload field */}
-          <div className="flex flex-col gap-3 pb-5">
+          {/* <div className="flex flex-col gap-3 pb-5">
             <label className="font-semibold">Profile Image:</label>
             <input type="file" accept="image/*" onChange={handleImageChange} />
             {formData.image && (
@@ -221,7 +221,7 @@ const Settings = () => {
                 style={{ maxWidth: "100px", maxHeight: "100px" }}
               />
             )}
-          </div>
+          </div> */}
 
           <Button
             type="submit"
