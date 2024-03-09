@@ -16,15 +16,16 @@ const Settings = () => {
   const initialFormDataValues = {
     username: user.username,
     email: user.email,
-    password: "",
     bio: "",
     country: "India",
     state: "",
     city: "",
+    image: "", // Include image in the initial state
   };
 
   const [formData, setFormData] = useState(initialFormDataValues);
   const [passwordMatch, setPasswordMatch] = useState("");
+  const [imageFile, setImageFile] = useState(null); // State to store the selected image file
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -34,28 +35,44 @@ const Settings = () => {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageFile(file);
+        setFormData((prevData) => ({
+          ...prevData,
+          image: reader.result, // Convert the image to base64 and include it in form data
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (passwordMatch !== formData.password) {
-      toast.error("Password do not match enter correct password!!");
-      return;
-    } else {
-      try {
-        const response = await updateProfile(formData);
-        console.log("Update response:", response.data);
-        toast.success("Updated successfully");
-        setFormData(initialFormDataValues);
-        setPasswordMatch("");
-        setTimeout(() => {
-          if (user.admin) {
-            navigate("/admin");
-          } else {
-            navigate("/");
-          }
-        }, 2000);
-      } catch (error) {
-        toast.error("Error updating profile:", error);
-      }
+    // if (passwordMatch !== formData.password) {
+    //   toast.error("Password do not match enter correct password!!");
+    //   return;
+    // } else {
+    // }
+    try {
+      const response = await updateProfile(formData);
+      console.log("Update response:", response.data);
+      toast.success("Updated successfully");
+      setFormData(initialFormDataValues);
+      setPasswordMatch("");
+      setImageFile(null); // Reset the image file state after submission
+      setTimeout(() => {
+        if (user.admin) {
+          navigate("/admin");
+        } else {
+          navigate("/");
+        }
+      }, 2000);
+    } catch (error) {
+      toast.error("Error updating profile:", error);
     }
   };
 
@@ -159,7 +176,7 @@ const Settings = () => {
             </div>
           </div>
 
-          <div className="mt-5 flex flex-col gap-3 border border-red-500 rounded-lg p-5">
+          {/* <div className="mt-5 flex flex-col gap-3 border border-red-500 rounded-lg p-5">
             <p className="pb-2 font-semibold text-lg text-red-400 underline underline-offset-[9px]">
               Danger Zone :
             </p>
@@ -191,7 +208,21 @@ const Settings = () => {
                 <small className="text-red-500">Passwords do not match</small>
               )}
             </div>
+          </div> */}
+
+          {/* Image upload field */}
+          <div className="flex flex-col gap-3 pb-5">
+            <label className="font-semibold">Profile Image:</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {formData.image && (
+              <img
+                src={formData.image}
+                alt="Profile"
+                style={{ maxWidth: "100px", maxHeight: "100px" }}
+              />
+            )}
           </div>
+
           <Button
             type="submit"
             label="Update Profile"

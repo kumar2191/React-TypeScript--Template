@@ -10,6 +10,7 @@ import { WiStars } from "react-icons/wi";
 const Navbar = () => {
   const { user, logout } = useUserContext();
 
+  console.log(user)
   const navigate = useNavigate();
 
   const userMenu = useRef(null);

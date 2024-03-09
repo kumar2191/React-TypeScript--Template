@@ -11,12 +11,30 @@ const UserProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
   // fetch user from token
-  const getUser = async () => {
+  const getLoggedInUser = async () => {
     try {
       const res = await axios.get(AuthURL + "refetch", {
         withCredentials: true,
       });
-      setUser(res.data);
+
+      console.log(res.data);
+
+      // Extract _id from the response
+      const { _id } = res.data;
+
+      // Fetch additional user data using the _id
+      const userDataResponse = await axios.get(
+        `http://localhost:5000/api/v1/users/${_id}`
+      );
+
+      // console.log(userDataResponse.data.data);
+
+      // Update user state with the combined data
+      setUser({
+        // ...res.data, // Original user data
+        ...userDataResponse.data.data, // Additional user data
+      });
+
       return res.data;
     } catch (error) {
       setError(
@@ -72,7 +90,7 @@ const UserProvider = ({ children }) => {
 
   // fetch user for every re-render
   useEffect(() => {
-    getUser();
+    getLoggedInUser();
   }, []);
 
   const contextValue = {
@@ -81,12 +99,12 @@ const UserProvider = ({ children }) => {
     loading,
     setLoading,
     error,
-    getUser,
+    getLoggedInUser,
     userLogin,
     userRegister,
     logout,
   };
-  
+
   return (
     <UserContext.Provider value={contextValue}>
       {loading ? <Loading /> : children}

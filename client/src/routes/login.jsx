@@ -5,7 +5,7 @@ import { useUserContext } from "../context/userAuth.Context";
 import { WiStars } from "react-icons/wi";
 
 const Login = () => {
-  const { userLogin, getUser } = useUserContext();
+  const { userLogin, getLoggedInUser } = useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   let navigate = useNavigate();
@@ -18,18 +18,18 @@ const Login = () => {
       toast.success(response.message);
       if (response.status) {
         try {
-          const res = await getUser();
-          const { admin } = res;
-          if (admin) {
-            window.location.href = "/admin";
-            return;
-          } else {
-            navigate("/");
-          }
+          const res = await getLoggedInUser();
+          console.log(res);
+          // const { admin } = res;
+          // if (admin) {
+          //   window.location.href = "/admin";
+          //   return;
+          // } else {
+          //   navigate("/");
+          // }
         } catch (error) {
           console.log(error);
         }
-        
       }
     } catch (error) {
       toast.error(error.message);
