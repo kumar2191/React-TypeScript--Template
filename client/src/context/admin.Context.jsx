@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { UserURL } from "../config";
 import Loading from "./loading";
 import { usersDetails } from "../constants/adminStats";
@@ -17,7 +17,8 @@ const AdminProvider = ({ children }) => {
       const res = await axios.get(UserURL, {
         withCredentials: true,
       });
-      setUsers(res.data);
+      console.log(res.data);
+      setUsers(res.data.data);
     } catch (error) {
       setError(
         error.response?.data.message ||
@@ -31,9 +32,9 @@ const AdminProvider = ({ children }) => {
     }
   };
 
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const contextValue = {
     users,
