@@ -45,7 +45,7 @@ const Settings = () => {
         console.log("Update response:", response.data);
         toast.success("Updated successfully");
         setFormData(initialFormDataValues);
-        setPasswordMatch("")
+        setPasswordMatch("");
         setTimeout(() => {
           if (user.admin) {
             navigate("/admin");
