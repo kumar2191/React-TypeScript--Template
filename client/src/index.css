@@ -66,13 +66,14 @@
 
 /* pagination */
 .p-paginator .p-dropdown .p-dropdown-label {
-    padding-right: 0;
+    padding-right: 15px;
+    border: 0;
 }
 
 .p-dropdown .p-dropdown-trigger {
     background: transparent;
     color: #6b7280;
-    width: 3rem;
+    width: 2rem;
     border-top-right-radius: 6px;
     border-bottom-right-radius: 6px;
 }
