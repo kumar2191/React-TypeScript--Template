@@ -7,4 +7,4 @@ import Register from "./register.jsx"
 import Settings from "./settings.jsx"
 import Notfound from "./notfound.jsx"
 
-export { Root, Admin, Home, Explore, Login, Register, Settings, Notfound }
+export { Root, Admin, Home, Explore, Login, Register, Settings, Notfound, }
