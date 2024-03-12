@@ -19,6 +19,9 @@ const ExplorePanel = () => {
   const [visible, setVisible] = useState(false);
 
   const [userSymptoms, setUserSymptoms] = useState([]);
+  const [userSymptomsID, setUserSymptomsID] = useState([]);
+
+  console.log(userSymptomsID);
 
   const responsiveOptions = [
     {
@@ -104,7 +107,7 @@ const ExplorePanel = () => {
     fetchData();
   }, [id]);
 
-  const pushValueIntoState = (value) => {
+  const pushValueIntoState = (value, ID) => {
     setUserSymptoms((prevState) => {
       const isValueInState = prevState.some(
         (item) => item.toLowerCase() === value.toLowerCase()
@@ -120,14 +123,50 @@ const ExplorePanel = () => {
         return updatedState;
       }
     });
+
+    setUserSymptomsID((prevState) => {
+      const isValueInState = prevState.some(
+        (item) => item.toLowerCase() === ID.toLowerCase()
+      );
+
+      if (isValueInState) {
+        const updatedState = prevState.filter(
+          (item) => item.toLowerCase() !== ID.toLowerCase()
+        );
+        return updatedState;
+      } else {
+        const updatedState = [...prevState, ID];
+        return updatedState;
+      }
+    });
   };
 
-  const handelClick = () => {
+  const handelClick = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await axios({
+        method: "post",
+        url: URL + "user/search/add",
+        withCredentials: true,
+        headers: {
+          accept: "application/json",
+          token: token,
+        },
+        data: {
+          symptom: userSymptomsID,
+          diseasesId: id,
+        },
+      });
+
     setVisible(false);
     toast.success("Thanks For Visiting");
     setTimeout(() => {
       navigate("/");
     }, 500);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const headerElement = (
@@ -170,15 +209,15 @@ const ExplorePanel = () => {
                   <Card
                     key={index}
                     className={`hover:bg-indigo-500 hover:text-white cursor-pointer ${
-                      userSymptoms.includes(item)
+                      userSymptoms.includes(item.name)
                         ? "bg-indigo-500 text-white font-semibold"
                         : ""
                     }`}
                     onClick={() => {
-                      pushValueIntoState(item);
+                      pushValueIntoState(item.name, item._id);
                     }}
                   >
-                    {item}
+                    {item.name}
                   </Card>
                 );
               })}

@@ -9,7 +9,8 @@ export const getAllUserSearch = async (req, res) => {
 
     let err, getAllUserSearch;
 
-    [err, getAllUserSearch] = await to(UserSearch.find({}));
+    [err, getAllUserSearch] = await to(UserSearch.find({})
+        .populate('diseasesId').populate('symptom').populate("userId"));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
@@ -22,7 +23,8 @@ export const getAllUserSearch = async (req, res) => {
 export const getUserSearchById = async (req, res) => {
     let err, userSearch;
 
-    [err, userSearch] = await to(UserSearch.findById(req.params.id));
+    [err, userSearch] = await to(UserSearch.findById(req.params.id)
+        .populate('diseasesId').populate('symptom').populate("userId"));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
@@ -37,11 +39,11 @@ export const getUserSearchById = async (req, res) => {
 }
 
 export const getUserSearchByToken = async (req, res) => {
-    let err, getUserSearch,user=req.user;
+    let err, getUserSearch, user = req.user;
 
     let checkUser;
 
-    [err, checkUser] = await to(User.findOne({ _id: user}));
+    [err, checkUser] = await to(User.find({ _id: user }));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
@@ -51,7 +53,8 @@ export const getUserSearchByToken = async (req, res) => {
         return ReE(res, "User is not found", httpStatus.BAD_REQUEST);
     }
 
-    [err, getUserSearch] = await to(UserSearch.find({ userId: user}));
+    [err, getUserSearch] = await to(UserSearch.find({ userId: user }).populate('diseasesId')
+        .populate('symptom').populate("userId"));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
@@ -67,7 +70,7 @@ export const getUserSearchByToken = async (req, res) => {
 
 export const createUserSearch = async (req, res) => {
     let err;
-    let {  symptom, diseasesId } = req.body;
+    let { symptom, diseasesId } = req.body;
     let userId = req.user;
     console.log(userId);
     let requiredFields = ["symptom", "diseasesId"];
@@ -80,7 +83,7 @@ export const createUserSearch = async (req, res) => {
 
     let checkUser;
 
-    [err, checkUser] = await to(User.findOne({ _id: userId}));
+    [err, checkUser] = await to(User.findOne({ _id: userId }));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
@@ -121,16 +124,16 @@ export const createUserSearch = async (req, res) => {
 
         let checkSymptomInDiseases = checkDiseases.symptoms.includes(element);
 
-        if(!checkSymptomInDiseases){
+        if (!checkSymptomInDiseases) {
             return ReE(res, `Symptom ${element} id is not added in this disease`, httpStatus.BAD_REQUEST);
         }
-        
+
     }
-    
+
     let createdUserSearch, createdUserSearchOptions = {
         userId: userId,
-        symptom : symptom,
-        diseasesId : diseasesId
+        symptom: symptom,
+        diseasesId: diseasesId
     };
 
     [err, createdUserSearch] = await to(UserSearch.create(createdUserSearchOptions));

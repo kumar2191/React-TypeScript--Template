@@ -23,7 +23,7 @@ export const getAllDiseases = async (req, res) => {
 export const getDiseaseById = async (req, res) => {
     let err, disease;
 
-    [err, disease] = await to(Diseases.findById(req.params.id));
+    [err, disease] = await to(Diseases.findById(req.params.id).populate("symptoms"));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR);
