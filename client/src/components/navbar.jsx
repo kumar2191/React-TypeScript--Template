@@ -3,8 +3,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { useUserContext } from "../context/userAuth.Context";
 import { Avatar } from "primereact/avatar";
-import { Menu } from "primereact/menu";
 import { Button } from "primereact/button";
+import { Menu } from "primereact/menu";
 import { WiStars } from "react-icons/wi";
 
 const Navbar = () => {

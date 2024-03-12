@@ -5,13 +5,18 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { URL } from "../config";
 import { Card } from "primereact/card";
+import { Dialog } from "primereact/dialog";
+import { useUserContext } from "../context/userAuth.Context";
+import { Avatar } from "primereact/avatar";
+import { Button } from "primereact/button";
 
 const ExplorePanel = () => {
   const { id } = useParams();
+  const { user } = useUserContext();
 
   const [symptoms, setSymptoms] = useState({});
 
-  console.log(symptoms);
+  const [visible, setVisible] = useState(false);
 
   const [userSymptoms, setUserSymptoms] = useState([]);
 
@@ -118,11 +123,31 @@ const ExplorePanel = () => {
   };
 
   const handelClick = () => {
+    setVisible(false);
     toast.success("Thanks For Visiting");
     setTimeout(() => {
       navigate("/");
     }, 500);
   };
+
+  const headerElement = (
+    <div className="inline-flex align-items-center justify-content-center gap-2">
+      <Avatar label={user.name.charAt(0).toUpperCase()} shape="circle" />
+      <span className="font-bold white-space-nowrap">{user.name}</span>
+    </div>
+  );
+
+  const footerContent = (
+    <div>
+      <Button
+        label="Ok"
+        icon="pi pi-check"
+        onClick={() => handelClick()}
+        className="py-2 px-3"
+        autoFocus
+      />
+    </div>
+  );
 
   return (
     <div className="m-5">
@@ -224,12 +249,39 @@ const ExplorePanel = () => {
 
       <div className="flex justify-end">
         <button
-          onClick={handelClick}
+          onClick={() => setVisible(true)}
           type="button"
           className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
         >
           Submit
         </button>
+        <div className="card flex justify-content-center">
+          <Dialog
+            header={headerElement}
+            visible={visible}
+            onHide={() => setVisible(false)}
+            style={{ width: "50vw" }}
+            modal
+            footer={footerContent}
+          >
+            <p className="m-0">
+              <p className="py-2">
+                The symptoms that user have been facing are:
+              </p>
+              {userSymptoms.map((item) => {
+                return (
+                  <li className="font-semibold text-[12px] py-2 px-3">
+                    {item}
+                  </li>
+                );
+              })}
+
+              <p className="text-[12px] mt-3 text-indigo-500">
+                Note: This data's are recorded for future use
+              </p>
+            </p>
+          </Dialog>
+        </div>
       </div>
     </div>
   );
