@@ -16,8 +16,6 @@ export const getAllDiseases = async (req, res) => {
         return ReE(res, "No diseases found", httpStatus.NOT_FOUND);
     }
 
-    console.log(diseases.length);
-
     return ReS(res, { data:diseases }, httpStatus.OK);
 
 };

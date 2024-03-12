@@ -8,9 +8,7 @@ import { Button } from "primereact/button";
 import { WiStars } from "react-icons/wi";
 
 const Navbar = () => {
-  const { user, logout } = useUserContext();
-
-  console.log(user)
+  const { user } = useUserContext();
   const navigate = useNavigate();
 
   const userMenu = useRef(null);
@@ -18,7 +16,7 @@ const Navbar = () => {
   const items = user
     ? [
         {
-          label: user.username + "!",
+          label: user.name + "!",
           items: [
             {
               label: "Settings",
@@ -39,22 +37,13 @@ const Navbar = () => {
       ]
     : [];
 
-  const handleLogout = async () => {
-    try {
-      const response = await logout();
-      console.log(response);
-      if (response.status) {
-        toast.success(response.message);
-        setTimeout(() => {
-          navigate("/login");
-          window.location.reload();
-        }, 1000);
-      } else {
-        toast.error("Something went wrong!");
-      }
-    } catch (error) {
-      toast.error("Logout failed:", error);
-    }
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    toast.success("User Logout successfully");
+
+    setTimeout(() => {
+      window.location.href = "/login";
+    }, 1000);
   };
 
   return (
@@ -131,7 +120,7 @@ const Navbar = () => {
         {user ? (
           <>
             <Avatar
-              label={user.username.charAt(0)}
+              label={user.name.charAt(0)}
               shape="circle"
               style={{ backgroundColor: "#ffffff", color: "black" }}
             />

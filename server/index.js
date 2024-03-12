@@ -10,7 +10,10 @@ import userSearchRouter from "./router/userSearchRouter.js";
 const app = express();
 
 dotenv.config();
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true, // Allow cookies with CORS
+}));
 app.use(express.json({ limit: '50mb' }));
 
 connectDB();

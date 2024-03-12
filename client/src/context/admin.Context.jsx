@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
-import { UserURL } from "../config";
+import { URL } from "../config";
 import Loading from "./loading";
 import { usersDetails } from "../constants/adminStats";
 
@@ -14,8 +14,14 @@ const AdminProvider = ({ children }) => {
   // fetch users
   const fetchUsers = async () => {
     try {
-      const res = await axios.get(UserURL, {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(URL + "user", {
         withCredentials: true,
+        headers: {
+          accept: "application/json",
+          token: token,
+        },
       });
       console.log(res.data);
       setUsers(res.data.data);

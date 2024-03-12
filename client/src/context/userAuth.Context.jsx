@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useContext, useState, useEffect } from "react";
-import { AuthURL } from "../config";
+import { URL } from "../config";
 import Loading from "./loading";
 
 const UserContext = createContext();
@@ -13,28 +13,17 @@ const UserProvider = ({ children }) => {
   // fetch user from token
   const getLoggedInUser = async () => {
     try {
-      const res = await axios.get(AuthURL + "refetch", {
+      const token = localStorage.getItem('token');
+
+      const res = await axios.get(URL + "user/profile", {
         withCredentials: true,
+        headers: {
+          accept: 'application/json',
+          token: token
+        }
       });
 
-      console.log(res.data);
-
-      // Extract _id from the response
-      const { _id } = res.data;
-
-      // Fetch additional user data using the _id
-      const userDataResponse = await axios.get(
-        `http://localhost:5000/api/v1/users/${_id}`
-      );
-
-      // console.log(userDataResponse.data.data);
-
-      // Update user state with the combined data
-      setUser({
-        // ...res.data, // Original user data
-        ...userDataResponse.data.data, // Additional user data
-      });
-
+      setUser(res.data.data);
       return res.data;
     } catch (error) {
       setError(
@@ -48,10 +37,11 @@ const UserProvider = ({ children }) => {
     }
   };
 
+
   // user login call
   const userLogin = async (formData) => {
     try {
-      const response = await axios.post(AuthURL + "login", formData, {
+      const response = await axios.post(URL + "user/login", formData, {
         withCredentials: true,
       });
       setUser(response.data.user);
@@ -66,7 +56,7 @@ const UserProvider = ({ children }) => {
   // user register call
   const userRegister = async (formData) => {
     try {
-      const response = await axios.post(AuthURL + "register", formData, {
+      const response = await axios.post(URL + "user/reg", formData, {
         withCredentials: true,
       });
       return response.data;
@@ -74,17 +64,6 @@ const UserProvider = ({ children }) => {
       throw new Error(
         error.response?.data.message || "An error occurred while registering"
       );
-    }
-  };
-
-  const logout = async () => {
-    try {
-      const response = await axios.get(AuthURL + "/logout", {
-        withCredentials: true,
-      });
-      return response.data;
-    } catch (error) {
-      console.error("Logout failed:", error);
     }
   };
 
@@ -102,7 +81,6 @@ const UserProvider = ({ children }) => {
     getLoggedInUser,
     userLogin,
     userRegister,
-    logout,
   };
 
   return (

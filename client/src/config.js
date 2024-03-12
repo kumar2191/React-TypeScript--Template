@@ -1,4 +1,3 @@
-const AuthURL = "http://localhost:5000/api/v1/userAuth/"
-const UserURL = "http://localhost:5000/api/v1/users/"
+const URL = "http://localhost:5000/api/"
 
-export { AuthURL, UserURL }
+export { URL }

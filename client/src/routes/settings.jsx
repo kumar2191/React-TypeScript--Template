@@ -5,27 +5,23 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
-import { Password } from "primereact/password";
 import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+// import axios from "axios";
 
 const Settings = () => {
   const { user } = useUserContext();
   const navigate = useNavigate();
 
   const initialFormDataValues = {
-    username: user.username,
+    username: user.name,
     email: user.email,
     bio: "",
     country: "India",
     state: "",
     city: "",
-    image: "", // Include image in the initial state
   };
 
   const [formData, setFormData] = useState(initialFormDataValues);
-  const [passwordMatch, setPasswordMatch] = useState("");
-  const [imageFile, setImageFile] = useState(null); // State to store the selected image file
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -35,35 +31,13 @@ const Settings = () => {
     }));
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageFile(file);
-        setFormData((prevData) => ({
-          ...prevData,
-          image: reader.result, // Convert the image to base64 and include it in form data
-        }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // if (passwordMatch !== formData.password) {
-    //   toast.error("Password do not match enter correct password!!");
-    //   return;
-    // } else {
-    // }
     try {
       const response = await updateProfile(formData);
       console.log("Update response:", response.data);
       toast.success("Updated successfully");
       setFormData(initialFormDataValues);
-      setPasswordMatch("");
-      setImageFile(null); // Reset the image file state after submission
       setTimeout(() => {
         if (user.admin) {
           navigate("/admin");
@@ -80,12 +54,12 @@ const Settings = () => {
     console.log(`Updating ${user._id}...`);
     console.log("Form Data:", formData);
 
-    const response = await axios.put(
-      `http://localhost:5000/api/v1/users/${user._id}`,
-      formData
-    );
+    // const response = await axios.put(
+    //   `http://localhost:5000/api/users/upprofile/${user._id}`,
+    //   formData
+    // );
 
-    return response;
+    // return response;
   };
 
   return (
@@ -111,7 +85,7 @@ const Settings = () => {
           },
         }}
       />
-      <Card title={`Profile of ${user.username}`}>
+      <Card title={`Profile of ${user.name}`}>
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col gap-3 pb-5">
             <label className="font-semibold">Name:</label>
@@ -175,53 +149,6 @@ const Settings = () => {
               />
             </div>
           </div>
-
-          {/* <div className="mt-5 flex flex-col gap-3 border border-red-500 rounded-lg p-5">
-            <p className="pb-2 font-semibold text-lg text-red-400 underline underline-offset-[9px]">
-              Danger Zone :
-            </p>
-
-            <div className="flex flex-col gap-3 pb-5">
-              <label className="font-semibold">Password:</label>
-              <Password
-                name="password"
-                value={formData.password}
-                onChange={handleOnChange}
-                placeholder="Enter password"
-                toggleMask
-              />
-            </div>
-
-            <div className="flex flex-col gap-3 pb-5">
-              <label className="font-semibold">Confirm Password:</label>
-              <Password
-                name="confirmPassword"
-                value={passwordMatch}
-                onChange={(e) => setPasswordMatch(e.target.value)}
-                placeholder="Confirm password"
-                toggleMask
-                feedback={false}
-                tabIndex={1}
-              />
-
-              {passwordMatch && formData.password !== passwordMatch && (
-                <small className="text-red-500">Passwords do not match</small>
-              )}
-            </div>
-          </div> */}
-
-          {/* Image upload field */}
-          {/* <div className="flex flex-col gap-3 pb-5">
-            <label className="font-semibold">Profile Image:</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
-            {formData.image && (
-              <img
-                src={formData.image}
-                alt="Profile"
-                style={{ maxWidth: "100px", maxHeight: "100px" }}
-              />
-            )}
-          </div> */}
 
           <Button
             type="submit"

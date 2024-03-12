@@ -190,9 +190,6 @@ export const getUserByToken = async (req, res) => {
     if (isNull(checkUser)) {
         return ReE(res, "User not found", httpStatus.BAD_REQUEST);
     }
-
-    console.log("mass");
-
     return ReS(res, { data : checkUser }, httpStatus.OK);
 };
 

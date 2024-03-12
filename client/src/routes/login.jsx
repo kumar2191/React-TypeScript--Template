@@ -1,6 +1,5 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../context/userAuth.Context";
 import { WiStars } from "react-icons/wi";
 
@@ -8,7 +7,6 @@ const Login = () => {
   const { userLogin, getLoggedInUser } = useUserContext();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  let navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -16,17 +14,18 @@ const Login = () => {
       const formData = { email, password };
       const response = await userLogin(formData);
       toast.success(response.message);
-      if (response.status) {
+      // Store token in local storage
+      localStorage.setItem("token", response.token);
+      if (response.success) {
         try {
           const res = await getLoggedInUser();
-          console.log(res);
-          // const { admin } = res;
-          // if (admin) {
-          //   window.location.href = "/admin";
-          //   return;
-          // } else {
-          //   navigate("/");
-          // }
+          const { data } = res;
+          // Check if user is an admin
+          if (data.isAdmin) {
+            window.location.href = "/admin"; // Navigate to admin dashboard
+          } else {
+            window.location.href = "/"; // Navigate to home page
+          }
         } catch (error) {
           console.log(error);
         }
