@@ -2,10 +2,17 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Dialog } from "primereact/dialog";
+import { useUserContext } from "../context/userAuth.Context";
 
 const UserHistory = () => {
+  const { user } = useUserContext();
   const [history, setHistory] = useState([]);
-  let navigate = useNavigate()
+  const [visible, setVisible] = useState(false);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -25,9 +32,35 @@ const UserHistory = () => {
     fetchData();
   }, []);
 
-  const handleClick =()=>{
-    navigate("/")
-  }
+  const diseasesTemplate = (rowData) => {
+    return (
+      <div>
+        {rowData.diseasesId.name.charAt(0).toUpperCase() +
+          rowData.diseasesId.name.slice(1)}
+      </div>
+    );
+  };
+
+  const handleEyeIconClick = (rowData) => {
+    setSelectedSymptoms(rowData.symptom);
+    setVisible(true);
+  };
+
+  const symptomsTemplate = (rowData) => {
+    console.log(rowData);
+    return (
+      <>
+        <i
+          className="pi pi-eye text-orange-300"
+          onClick={() => handleEyeIconClick(rowData)}
+        ></i>
+      </>
+    );
+  };
+
+  const handleClick = () => {
+    navigate("/");
+  };
 
   return (
     <div className="card m-5">
@@ -35,83 +68,70 @@ const UserHistory = () => {
         <p>User symptoms history that user have suffered:</p>
       </div>
 
-      <div className="flex justify-center gap-[6rem] border border-l-0 border-r-0 border-b-0 border-t-2 p-8">
+      <div className="border border-l-0 border-r-0 border-b-0 border-t-2 p-3">
         {/* user details */}
         <div>
-          {history.map((item) => {
-            console.log(item);
-            return (
-              <>
-                <p className="font-semibold text-[14px] text-indigo-500 pb-3">
-                  User Details:
-                </p>
-                <div className="flex gap-2 pb-4">
-                  <label htmlFor="name" className="font-semibold">
-                    Name:
-                  </label>
-                  <p>{item.userId.name}</p>
-                </div>
-                <div className="flex gap-2">
-                  <label htmlFor="email" className="font-semibold">
-                    Email:
-                  </label>
-                  <p>{item.userId.email}</p>
-                </div>
-              </>
-            );
-          })}
-        </div>
-
-        {/* diseases name */}
-        <div>
-          {history.map((item) => {
-            return (
-              <>
-                <p className="font-semibold text-[14px] text-indigo-500 pb-3">
-                  Diseases of user:
-                </p>
-                <div>
-                  <p>
-                    {item.diseasesId.name.charAt(0).toUpperCase() +
-                      item.diseasesId.name.slice(1)}
-                  </p>
-                </div>
-              </>
-            );
-          })}
-        </div>
-
-        {/* symptoms */}
-        <div>
-          {history.map((item) => {
-            return (
-              <>
-                <p className="font-semibold text-[14px] text-indigo-500 pb-3">
-                  Symptoms history of user:
-                </p>
-
-                <div>
-                  {item.symptom.map((item, index) => {
-                    return (
-                      <>
-                        <div className="my-2 px-2 py-2 border border-l-0 border-r-0 border-b-2 border-t-0">
-                          <p>
-                            {index + 1}.{" "}
-                            {item.name.charAt(0).toUpperCase() +
-                              item.name.slice(1)}
-                          </p>
-                        </div>
-                      </>
-                    );
-                  })}
-                </div>
-              </>
-            );
-          })}
+          <>
+            <p className="font-semibold text-[14px] text-indigo-500 mt-3 pb-3">
+              User Details:
+            </p>
+            <div className="flex gap-2 pb-4">
+              <label htmlFor="name" className="font-semibold">
+                Name:
+              </label>
+              <p>{user.name}</p>
+            </div>
+            <div className="flex gap-2">
+              <label htmlFor="email" className="font-semibold">
+                Email:
+              </label>
+              <p>{user.email}</p>
+            </div>
+          </>
         </div>
       </div>
-      <div className="flex justify-center">
-        <button className="flex items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500" onClick={handleClick}>
+      <DataTable value={history}>
+        {/* <Column header="User Details" /> */}
+        <Column header="User Diseases" body={diseasesTemplate} />
+        <Column header="Date of search" field="date" />
+        <Column header="Symptoms history" body={symptomsTemplate} />
+      </DataTable>
+
+      <div className="card flex justify-content-center">
+        <Dialog
+          header="Symptoms"
+          visible={visible}
+          onHide={() => setVisible(false)}
+          style={{ width: "50vw" }}
+          modal
+        >
+          <div>
+            <p className="font-semibold text-[14px] text-indigo-500 mt-3 pb-3">
+              Symptoms history of user:
+            </p>
+
+            <div>
+              {selectedSymptoms.map((symptom, index) => (
+                <div
+                  key={index}
+                  className="my-2 px-2 py-2 border border-l-0 border-r-0 border-b-2 border-t-0"
+                >
+                  <p>
+                    {index + 1}.{" "}
+                    {symptom.name.charAt(0).toUpperCase() +
+                      symptom.name.slice(1)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Dialog>
+      </div>
+      <div className="flex justify-center mt-4">
+        <button
+          className="flex items-center justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+          onClick={handleClick}
+        >
           Back to home
         </button>
       </div>
