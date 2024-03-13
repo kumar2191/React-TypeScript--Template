@@ -12,10 +12,20 @@ const userSearchSchema = mongoose.Schema({
             ref: "Symptom"
         }
     ],
-    diseasesId : {
+    diseasesId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Diseases"
     },
+    date: {
+        type: Date
+    }
+});
+
+userSearchSchema.pre("save", function (next) {
+    if (!this.date) {
+        this.date = new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" });
+    }
+    next();
 });
 
 const UserSearch = mongoose.model("UserSearch", userSearchSchema);

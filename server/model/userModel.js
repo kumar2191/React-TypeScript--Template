@@ -17,16 +17,16 @@ const userSchema = mongoose.Schema({
     phoneNo: {
         type: String,
         unique: true,
-        required: true,
+        // required: true,
     },
     gender: {
         type: String,
-        required: true,
+        // required: true,
         enum: ["male","female","others"]
     },
     isAdmin: {
         type: Boolean,
-        required: true,
+        // required: true,
         default: false,
     },
 });

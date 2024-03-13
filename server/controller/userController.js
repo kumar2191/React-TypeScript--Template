@@ -37,11 +37,11 @@ export const getUserById = async (req, res) => {
 export const registerUser = async (req, res) => {
     let err,body = req.body;
 
-    let requiredFields = ["name", "email", "password", "phoneNo", "gender"];
+    let requiredFields = ["name", "email", "password"];
 
     let invalidFields = requiredFields.filter(x => isNull(body[x]));
 
-    let { name, email, password, phoneNo, gender } = body;
+    let { name, email, password } = body;
     
     email = String(email).toLowerCase();
 
@@ -49,9 +49,9 @@ export const registerUser = async (req, res) => {
         return ReE(res, `Please provide ${invalidFields}`, httpStatus.BAD_REQUEST);
     }
 
-    if(phoneNo.length !== 10 ){
-        return ReE(res, { message: `Please enter valid phone number!.` }, httpStatus.BAD_REQUEST);
-    }
+    // if(phoneNo.length !== 10 ){
+    //     return ReE(res, { message: `Please enter valid phone number!.` }, httpStatus.BAD_REQUEST);
+    // }
 
     if(password.length < 6){
         return ReE(res, { message: `Password must be at least 6 characters!` }, httpStatus.BAD_REQUEST);
@@ -87,44 +87,42 @@ export const registerUser = async (req, res) => {
         return ReE(res, "User email already exists", httpStatus.BAD_REQUEST);
     }
 
-    let checkUserOptionsForPhoneNo = {
-        phoneNo: phoneNo
+    // let checkUserOptionsForPhoneNo = {
+    //     phoneNo: phoneNo
+    // };
+
+    // [err, checkUser] = await to(User.findOne(checkUserOptionsForPhoneNo));
+
+    // if (err) {
+    //     return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR );
+    // }
+
+    // if (!isNull(checkUser)) {
+    //     return ReE(res, "User phone number already exists", httpStatus.BAD_REQUEST);
+    // }
+
+    let hashPassword;
+
+    [err, hashPassword] = await to(bcrypt.hash(password, 10));
+
+    let user , userCreate= {
+        name: name,
+        email: email,
+        password: hashPassword,
     };
 
-    [err, checkUser] = await to(User.findOne(checkUserOptionsForPhoneNo));
+    [err, user] = await to(User.create(userCreate));
 
     if (err) {
         return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR );
     }
 
-    if (!isNull(checkUser)) {
-        return ReE(res, "User phone number already exists", httpStatus.BAD_REQUEST);
-    }
-
-    if(gender.toLowerCase() === "male" || gender.toLowerCase() === "female" || gender.toLowerCase() === "others"){
+    return ReS(res, {message : "user register successfully"}, httpStatus.CREATED);
+    // if(gender.toLowerCase() === "male" || gender.toLowerCase() === "female" || gender.toLowerCase() === "others"){
         
-        let hashPassword;
-
-        [err, hashPassword] = await to(bcrypt.hash(password, 10));
-
-        let user , userCreate= {
-            name: name,
-            email: email,
-            password: hashPassword,
-            phoneNo: phoneNo,
-            gender: gender
-        };
-
-        [err, user] = await to(User.create(userCreate));
-
-        if (err) {
-            return ReE(res, err, httpStatus.INTERNAL_SERVER_ERROR );
-        }
-
-        return ReS(res, {message : "user register successfully"}, httpStatus.CREATED);
-    }
+    // }
     
-    return ReE(res, { message: "Please enter valid gender like male, female and others!." }, httpStatus.BAD_REQUEST);
+    // return ReE(res, { message: "Please enter valid gender like male, female and others!." }, httpStatus.BAD_REQUEST);
 
 };
 

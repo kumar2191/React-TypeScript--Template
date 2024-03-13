@@ -6,6 +6,7 @@ import ExplorePanel from "./explorePanel.jsx"
 import Login from "./login.jsx"
 import Register from "./register.jsx"
 import Settings from "./settings.jsx"
+import UserHistory from "./userHistory.jsx"
 import Notfound from "./notfound.jsx"
 
-export { Root, Admin, Home, Explore, ExplorePanel, Login, Register, Settings, Notfound, }
+export { Root, Admin, Home, Explore, ExplorePanel, Login, Register, Settings, UserHistory, Notfound, }

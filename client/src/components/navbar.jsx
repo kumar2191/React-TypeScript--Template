@@ -26,6 +26,13 @@ const Navbar = () => {
               },
             },
             {
+              label: "User history",
+              icon: "pi pi-map",
+              command: () => {
+                navigate("/history");
+              },
+            },
+            {
               label: "Logout",
               icon: "pi pi-sign-out",
               command: () => {
@@ -120,7 +127,7 @@ const Navbar = () => {
         {user ? (
           <>
             <Avatar
-              label={user.name.charAt(0)}
+              label={user.name.charAt(0).toUpperCase()}
               shape="circle"
               style={{ backgroundColor: "#ffffff", color: "black" }}
             />

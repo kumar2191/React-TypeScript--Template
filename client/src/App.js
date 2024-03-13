@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home, Root, Login, Register, Notfound, Admin, Settings, Explore,ExplorePanel } from "./routes/index.js";
+import { Home, Root, Login, Register, Notfound, Admin,UserHistory, Settings, Explore,ExplorePanel } from "./routes/index.js";
 import { useUserContext } from "./context/userAuth.Context.jsx";
 import 'primeicons/primeicons.css';
 import "./App.css";
@@ -56,6 +56,10 @@ const App = () => {
         {
           path: "/explore/:id",
           element: <ExplorePanel />,
+        },
+        {
+          path: "/history",
+          element: <UserHistory />,
         },
         {
           path: "/settings",

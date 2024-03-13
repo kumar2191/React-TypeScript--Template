@@ -25,7 +25,7 @@ const Admin = () => {
         <div className="py-5 px-5 flex flex-col gap-2">
           <h2 className="font-bold text-[24px] underline underline-offset-8">
             Welcome Back{" "}
-            <span className="text-indigo-500">{user.username}</span> !
+            <span className="text-indigo-500">{user.name}</span> !
           </h2>
           <Tag
             className="font-semibold text-xs text-white w-[75px] bg-indigo-500"

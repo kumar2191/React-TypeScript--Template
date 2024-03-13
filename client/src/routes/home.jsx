@@ -21,7 +21,13 @@ const Home = () => {
   return (
     <div className="border border-gray-400 rounded-lg m-5 h-auto">
       <p className="text-black font-semibold p-5">
-        Welcome {user ? user.username : "Guest"},
+        Welcome{" "}
+        <span className="text-indigo-500">
+          {user
+            ? user.name.charAt(0).toUpperCase() + user.name.slice(1)
+            : "Guest"}
+        </span>
+        ,
       </p>
       <div className="flex justify-center gap-[6rem] h-[500px] p-5">
         <div className="flex flex-col justify-center gap-3 w-5/12">
@@ -62,6 +68,8 @@ const Home = () => {
           />
         </div>
       </div>
+
+      {/* <p className="flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">User history</p> */}
     </div>
   );
 };
