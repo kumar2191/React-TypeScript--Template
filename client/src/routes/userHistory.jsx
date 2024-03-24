@@ -61,7 +61,14 @@ const UserHistory = () => {
   const handleClick = () => {
     navigate("/");
   };
-
+  function formatDate(date) {
+    // Assuming 'date' is in ISO format or a valid Date object
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
   return (
     <div className="card m-5">
       <div className="my-5 text-center text-[1.25rem] font-semibold">
@@ -93,7 +100,9 @@ const UserHistory = () => {
       <DataTable value={history}>
         {/* <Column header="User Details" /> */}
         <Column header="User Diseases" body={diseasesTemplate} />
-        <Column header="Date of search" field="date" />
+        <Column header="Date of search" field="date"
+          body={(rowData) => formatDate(rowData.date)}
+        />
         <Column header="Symptoms history" body={symptomsTemplate} />
       </DataTable>
 

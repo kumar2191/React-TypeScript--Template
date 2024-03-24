@@ -14,6 +14,10 @@ const Home = () => {
       navigate("/login");
       window.location.reload();
     } else {
+      if (user?.isAdmin) {
+        return navigate("/admin");
+
+      }
       navigate("/explore");
     }
   };
@@ -32,11 +36,9 @@ const Home = () => {
       <div className="flex justify-center gap-[6rem] h-[500px] p-5">
         <div className="flex flex-col justify-center gap-3 w-5/12">
           <p>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facere sed
-            sapiente, et fuga perferendis illo ipsum rem perspiciatis placeat
-            quia, saepe illum, dolorum consequatur dolore quasi saepe provident
-            iste cumque voluptate rerum sint repudiandae voluptates laboriosam
-            placeat soluta animi. Sunt, repellendus.
+            At <span><b>Healthwise</b></span>, we're dedicated to helping you achieve your health and fitness
+            goals through expert advice, practical tips, and personalized resources. Whether you're a seasoned fitness
+            enthusiast or just beginning your wellness journey, our comprehensive platform has everything you need to succeed.
           </p>
           <div className="flex items-center gap-3">
             <Button
@@ -52,20 +54,20 @@ const Home = () => {
         </div>
         <div className="relative w-5/12 flex items-center justify-center">
           <img
-            src={scope}
+            src={"https://www.cyclinguk.org/sites/default/files/media-skyfish/CYCLINGUK00011.jpg"}
             alt=""
             className="md:w-[10rem] md:h-[12rem] lg:w-[20rem] lg:h-[20rem] rounded-lg absolute lg:top-[-4rem] md:top-0 left-0"
           />
           <img
-            src={pill}
+            src={"https://st2.depositphotos.com/26922084/43552/v/450/depositphotos_435525184-stock-illustration-women-exercising-in-the-gym.jpg"}
             alt=""
             className="md:w-[10rem] md:h-[12rem] lg:w-[20rem] lg:h-[20rem] rounded-lg absolute lg:top-[3rem] md:top-[5rem] right-0"
           />
-          <img
-            src={meditation}
+          {/* <img
+            src={"https://www.india.com/wp-content/uploads/2018/03/Yoga-for-women.jpg"}
             alt=""
             className="md:w-[10rem] md:h-[12rem] lg:w-[20rem] lg:h-[20rem] rounded-lg absolute bottom-0 left-[6rem] md:left-[2rem]"
-          />
+          /> */}
         </div>
       </div>
 

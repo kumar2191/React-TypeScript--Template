@@ -38,6 +38,14 @@ export const getUserSearchById = async (req, res) => {
 
 }
 
+export const GetAllHistory = async (req, res) => {
+    let data = await to(UserSearch.find({}).populate('diseasesId')
+        .populate('symptom').populate("userId"))
+    console.log(data);
+    return ReS(res, { data: data }, httpStatus.OK);
+
+}
+
 export const getUserSearchByToken = async (req, res) => {
     let err, getUserSearch, user = req.user;
 

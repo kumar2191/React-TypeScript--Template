@@ -12,36 +12,36 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const userMenu = useRef(null);
-
+  console.log(user, "user");
   const items = user
     ? [
-        {
-          label: user.name + "!",
-          items: [
-            {
-              label: "Settings",
-              icon: "pi pi-cog",
-              command: () => {
-                navigate("/settings");
-              },
+      {
+        label: user.name + "!",
+        items: [
+          {
+            label: "Settings",
+            icon: "pi pi-cog",
+            command: () => {
+              navigate("/settings");
             },
-            {
-              label: "User history",
-              icon: "pi pi-map",
-              command: () => {
-                navigate("/history");
-              },
+          },
+          !user.isAdmin && {
+            label: "User history",
+            icon: "pi pi-map",
+            command: () => {
+              navigate("/history");
             },
-            {
-              label: "Logout",
-              icon: "pi pi-sign-out",
-              command: () => {
-                handleLogout();
-              },
+          },
+          {
+            label: "Logout",
+            icon: "pi pi-sign-out",
+            command: () => {
+              handleLogout();
             },
-          ],
-        },
-      ]
+          },
+        ],
+      },
+    ]
     : [];
 
   const handleLogout = () => {
@@ -76,12 +76,14 @@ const Navbar = () => {
           },
         }}
       />
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center cursor-pointer" onClick={() => {
+        navigate("/")
+      }}>
         <WiStars className="font-semibold text-[2rem]" />
         Healthwise
       </div>
       <div className="flex gap-6">
-        {user && user.admin ? (
+        {user && user.isAdmin ? (
           <NavLink
             to="/admin"
             className={({ isActive }) =>

@@ -6,6 +6,7 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Button } from "primereact/button";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 // import axios from "axios";
 
 const Settings = () => {
@@ -15,10 +16,8 @@ const Settings = () => {
   const initialFormDataValues = {
     username: user.name,
     email: user.email,
-    bio: "",
-    country: "India",
-    state: "",
-    city: "",
+    age: user.age,
+    gender: user.gender,
   };
 
   const [formData, setFormData] = useState(initialFormDataValues);
@@ -54,12 +53,12 @@ const Settings = () => {
     console.log(`Updating ${user._id}...`);
     console.log("Form Data:", formData);
 
-    // const response = await axios.put(
-    //   `http://localhost:5000/api/users/upprofile/${user._id}`,
-    //   formData
-    // );
+    const response = await axios.put(
+      `http://localhost:5000/api/users/upprofile/${user._id}`,
+      formData
+    );
 
-    // return response;
+    return response;
   };
 
   return (
@@ -94,6 +93,8 @@ const Settings = () => {
               value={formData.username}
               onChange={handleOnChange}
               placeholder="Enter username"
+              readOnly
+
             />
           </div>
           <div className="flex flex-col gap-3 pb-5">
@@ -102,10 +103,12 @@ const Settings = () => {
               name="email"
               value={formData.email}
               onChange={handleOnChange}
+              readOnly
+
               placeholder="Enter email"
             />
           </div>
-          <div className="flex flex-col gap-3 pb-5">
+          {/* <div className="flex flex-col gap-3 pb-5">
             <label className="font-semibold">Bio:</label>
             <InputTextarea
               name="bio"
@@ -116,29 +119,31 @@ const Settings = () => {
             <p className="text-xs">
               You can @mention other users and organizations to link to them.
             </p>
-          </div>
+          </div> */}
           <div className="flex flex-wrap gap-3">
             <div className="flex flex-col gap-3 pb-5">
-              <label className="font-semibold">Country:</label>
+              <label className="font-semibold">Age:</label>
               <InputText
                 name="country"
-                value={formData.country}
+                value={formData.age}
                 onChange={handleOnChange}
                 placeholder="Country"
                 className="w-full"
+                readOnly
               />
             </div>
             <div className="flex flex-col gap-3 pb-5">
-              <label className="font-semibold">State:</label>
+              <label className="font-semibold">Gender:</label>
               <InputText
                 name="state"
-                value={formData.state}
+                value={formData.gender}
                 onChange={handleOnChange}
                 placeholder="State"
                 className="w-full"
+                readOnly
               />
             </div>
-            <div className="flex flex-col gap-3 pb-5">
+            {/* <div className="flex flex-col gap-3 pb-5">
               <label className="font-semibold">City:</label>
               <InputText
                 name="city"
@@ -147,14 +152,14 @@ const Settings = () => {
                 placeholder="City"
                 className="w-full"
               />
-            </div>
+            </div> */}
           </div>
 
-          <Button
+          {/* <Button
             type="submit"
             label="Update Profile"
             className="mt-5 flex w-full justify-center rounded-md bg-black px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-          />
+          /> */}
         </form>
       </Card>
     </div>

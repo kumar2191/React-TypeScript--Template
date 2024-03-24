@@ -159,11 +159,11 @@ const ExplorePanel = () => {
         },
       });
 
-    setVisible(false);
-    toast.success("Thanks For Visiting");
-    setTimeout(() => {
-      navigate("/");
-    }, 500);
+      setVisible(false);
+      toast.success("Thanks For Visiting");
+      setTimeout(() => {
+        navigate("/");
+      }, 500);
     } catch (error) {
       console.log(error);
     }
@@ -208,11 +208,10 @@ const ExplorePanel = () => {
                 return (
                   <Card
                     key={index}
-                    className={`hover:bg-indigo-500 hover:text-white cursor-pointer ${
-                      userSymptoms.includes(item.name)
-                        ? "bg-indigo-500 text-white font-semibold"
-                        : ""
-                    }`}
+                    className={`hover:bg-indigo-500 hover:text-white cursor-pointer ${userSymptoms.includes(item.name)
+                      ? "bg-indigo-500 text-white font-semibold"
+                      : ""
+                      }`}
                     onClick={() => {
                       pushValueIntoState(item.name, item._id);
                     }}
@@ -226,7 +225,7 @@ const ExplorePanel = () => {
             {/* treatment videos */}
             <div className="flex gap-1 mb-4">
               <p className="font-semibold text-lg underline underline-offset-8">
-                Treatment videos for
+                Exercise videos for
               </p>
               <p className="capitalize font-semibold text-lg text-indigo-500 underline underline-offset-8">
                 {symptoms.name}

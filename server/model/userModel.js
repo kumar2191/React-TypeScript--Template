@@ -18,12 +18,19 @@ const userSchema = mongoose.Schema({
         type: String,
         // unique: true,
         // required: true,
+        default: ""
     },
     gender: {
         type: String,
+        // unique: true,
         // required: true,
-        enum: ["male", "female", "others"]
     },
+    age: {
+        type: String,
+        // unique: true,
+        // required: true,
+    },
+
     isAdmin: {
         type: Boolean,
         // required: true,

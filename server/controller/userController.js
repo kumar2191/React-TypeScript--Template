@@ -41,7 +41,7 @@ export const registerUser = async (req, res) => {
     console.log(req.body, "cvbhnjmkl,");
     // let invalidFields = requiredFields.filter(x => isNull(body[x]));
 
-    let { name, email, password } = body;
+    let { name, email, password, gender, age } = body;
 
     email = String(email).toLowerCase();
 
@@ -109,7 +109,9 @@ export const registerUser = async (req, res) => {
         name: name,
         email: email,
         password: hashPassword,
-        phoneNo: new Date(),
+        gender: gender,
+        age: age,
+        phoneNo: new Date().getTime(),
         Created_at: moment().format("DD-MM-YYYY")
     };
     [err, user] = await to(User.create(userCreate));

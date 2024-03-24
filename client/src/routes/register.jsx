@@ -10,6 +10,9 @@ const Register = () => {
     name: "",
     email: "",
     password: "",
+    gender: "Male",
+    age: ""
+
   };
   const [formData, setFormData] = useState(initialFormDataValues);
   let navigate = useNavigate();
@@ -24,6 +27,7 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData, "formData");
     try {
       const response = await userRegister(formData);
       toast.success(response.message);
@@ -92,6 +96,57 @@ const Register = () => {
                     required
                     className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
                   />
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <div>
+
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Gender
+                    </label>
+                    <div className="mt-2">
+                      <select value={formData?.gender} onChange={handleOnChange}
+                        className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                        name="gender"
+                      >
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="other">other</option>
+                      </select>
+
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <div>
+
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium leading-6 text-gray-900"
+                    >
+                      Age
+                    </label>
+                    <div className="mt-2">
+
+                      <input
+                        type="number"
+                        id="name"
+                        name="age"
+                        value={formData.age}
+                        onChange={handleOnChange}
+                        placeholder="Enter your age"
+                        autoComplete="username"
+                        required
+                        step="any"
+                        min={1}
+                        className="block w-full rounded-md border-0 py-2 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-500 sm:text-sm sm:leading-6"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
 

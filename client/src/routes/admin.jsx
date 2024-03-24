@@ -59,6 +59,9 @@ const Admin = () => {
               >
                 <Column field="name" header="Username"></Column>
                 <Column field="email" header="Email"></Column>
+                <Column field="gender" header="Gender"></Column>
+                <Column field="age" header="Age"></Column>
+
                 <Column field="Created_at" header="Date"></Column>
               </DataTable>
             </div>
