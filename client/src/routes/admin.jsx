@@ -18,7 +18,7 @@ const StatCard = ({ title, description }) => {
 const Admin = () => {
   const { user } = useUserContext();
   const { users } = useAdminContext();
-
+  console.log(users, "kkkn");
   return (
     <div className="m-[1rem]">
       <div className="border rounded-xl border-gray-300">
@@ -34,14 +34,14 @@ const Admin = () => {
           ></Tag>
         </div>
         {/* stats */}
-        <div className="flex justify-between gap-2 py-4 px-5">
+        {/* <div className="flex justify-between gap-2 py-4 px-5">
           {stats.map((items) => {
             const { id, title, description } = items;
             return (
               <StatCard key={id} title={title} description={description} />
             );
           })}
-        </div>
+        </div> */}
 
         <div className="py-5 px-5">
           <Card>
@@ -53,13 +53,13 @@ const Admin = () => {
                 tableStyle={{ minWidth: "50rem" }}
                 value={users}
                 paginator
-                rows={5}
+                rows={10}
                 rowsPerPageOptions={[5, 10, 25, 50]}
                 className="text-[15px]"
               >
-                <Column field="username" header="Username"></Column>
+                <Column field="name" header="Username"></Column>
                 <Column field="email" header="Email"></Column>
-                <Column field="createdAt" header="Date OJ"></Column>
+                <Column field="Created_at" header="Date"></Column>
               </DataTable>
             </div>
             <hr className="my-5" />

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import moment from "moment";
 const userSchema = mongoose.Schema({
     name: {
         type: String,
@@ -16,18 +16,22 @@ const userSchema = mongoose.Schema({
     },
     phoneNo: {
         type: String,
-        unique: true,
+        // unique: true,
         // required: true,
     },
     gender: {
         type: String,
         // required: true,
-        enum: ["male","female","others"]
+        enum: ["male", "female", "others"]
     },
     isAdmin: {
         type: Boolean,
         // required: true,
         default: false,
+    },
+    Created_at: {
+        type: String, // Storing as String
+
     },
 });
 

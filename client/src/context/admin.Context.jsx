@@ -23,12 +23,12 @@ const AdminProvider = ({ children }) => {
           token: token,
         },
       });
-      console.log(res.data);
+      console.log(res.data, "okihuygtrfes");
       setUsers(res.data.data);
     } catch (error) {
       setError(
         error.response?.data.message ||
-          "An error occurred while fetching user data"
+        "An error occurred while fetching user data"
       );
     } finally {
       // Set loading to false after a delay for smoother experience
